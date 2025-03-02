@@ -21,13 +21,24 @@ def gameplay(ask: callable, inform: callable, words: list[str]) -> int:
         if b == len(word):
             print('Победа', cnt)
             return cnt
+def my_cow(message: str) -> None:
+
+    lines = message.splitlines()
+    max_len = max(len(line) for line in lines)
+    print(" " + "_" * (max_len + 2))
+    for line in lines:
+        print("< " + line.ljust(max_len) + " >")
+    print(" " + "-" * (max_len + 2))
+    print("    \\  (oo)")
+    print("     \\ (  )")
+    print("       ||")
 
 def ask(prompt: str, valid: list[str] = None) -> str:
     while 1:
         word = input(prompt).strip().lower()
         if not valid or word in valid:
             return word
-        cowsay.cow("Такого слова нет в словаре")
+        my_cow("Такого слова нет в словаре")
 
 def inform(format_string: str, bulls: int, cows:int) -> None:
     rand_cow = random.choice(list_cows)
