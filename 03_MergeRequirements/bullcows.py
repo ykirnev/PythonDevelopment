@@ -1,8 +1,9 @@
 import random
 import sys
 import requests
+import cowsay
 
-
+list_cows = [cowsay.cow, cowsay.cheese]
 def bullcows (guess: str, secret: str) -> (int, int):
     bull = sum(i == j for i, j in zip(guess, secret))
     doubles = sum(min(guess.count(i), secret.count(i)) for i in set(guess))
@@ -18,7 +19,7 @@ def gameplay(ask: callable, inform: callable, words: list[str]) -> int:
         b, c = bullcows(tr, word)
         inform("Быки: {}, Коровы: {}", b, c)
         if b == len(word):
-            print('Победа')
+            print('Победа', cnt)
             return cnt
 
 def ask(prompt: str, valid: list[str] = None) -> str:
@@ -26,10 +27,11 @@ def ask(prompt: str, valid: list[str] = None) -> str:
         word = input(prompt).strip().lower()
         if not valid or word in valid:
             return word
-        print("Такого слова нет в словаре")
+        cowsay.cow("Такого слова нет в словаре")
 
 def inform(format_string: str, bulls: int, cows:int) -> None:
-    print(format_string.format(bulls, cows))
+    rand_cow = random.choice(list_cows)
+    rand_cow(format_string.format(bulls, cows))
 
 if len(sys.argv) < 2:
     print("Использование: python -m bullscows словарь [длина]")
